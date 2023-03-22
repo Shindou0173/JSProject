@@ -10,9 +10,6 @@ router.get("/list", async function (req, res) {
 });
 
 router.post("/add", function (req, res) {
-  console.log("..../.....");
-  console.log(req.body);
-  console.log(req.params);
   if (req.body) {
     let mon = new Mon();
     mon.name = req.body.name;
