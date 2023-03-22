@@ -3,23 +3,30 @@ var router = express.Router();
 //DB connect
 var Mon = require("../model/mon");
 
-router.get('/list', async function (req, res) {
-  const a = await Mon.find().then((data) => {
-    console.log(data);
+router.get("/list", async function (req, res) {
+  await Mon.find().then((data) => {
+    res.send(data);
   });
 });
 
-router.post('/add', async function (req, res) {
-  console.log("..../.....");
-  console.log(req.body);
+router.post("/add", function (req, res) {
   if (req.body) {
     let mon = new Mon();
     mon.name = req.body.name;
     mon.price = req.body.price;
     mon.desc = req.body.desc;
-    await mon.save();
+    mon.save();
+    res.send({
+      error: null,
+      message: "Add product successfully.",
+      resolved: true,
+    });
+  } else {
+    res.send({
+      error: 400,
+      message: "Do not save record",
+    });
   }
-  res.end();
 });
 
 module.exports = router;
