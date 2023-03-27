@@ -22,7 +22,7 @@ router.post("/add", function (req, res) {
       resolved: true,
     });
   } else {
-    res.send({
+    res.json({
       error: 400,
       message: "Do not save record",
     });
@@ -30,3 +30,4 @@ router.post("/add", function (req, res) {
 });
 
 module.exports = router;
+
