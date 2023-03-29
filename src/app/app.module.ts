@@ -18,6 +18,7 @@ import { AdminpageComponent } from './components/adminpage/adminpage.component';
 import { CartComponent } from './components/cart/cart.component';
 import { CashComponent } from './components/cash/cash.component';
 import { OrderComponent } from './components/order/order.component';
+import { TableComponent } from './components/table/table.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { OrderComponent } from './components/order/order.component';
     CashComponent,
     OrderComponent,
     OrderManagementComponent,
+    TableComponent,
   ],
   imports: [
     BrowserModule,

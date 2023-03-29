@@ -15,6 +15,7 @@ import { AddmonComponent } from './components/addmon/addmon.component';
 import { AdminpageComponent } from './components/adminpage/adminpage.component';
 import { CartComponent } from './components/cart/cart.component';
 import { CashComponent } from './components/cash/cash.component';
+import { TableComponent } from './components/table/table.component';
 
 const routes: Routes = [
   {path:'Home', component: HomeComponent},
@@ -31,6 +32,8 @@ const routes: Routes = [
   {path: 'Cart', component:CartComponent},
   {path: 'Cash', component:CashComponent},
   {path: 'OrderManagement', component:OrderManagementComponent},
+  {path: 'Table', component:TableComponent},
+
 ];
 
 @NgModule({
