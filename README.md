@@ -1,5 +1,8 @@
 # Myshop
 # FE
+- npm install
+- npm @angular/core@15.0.0
+- npm typescript-cookie
 - ng serve
 # BE 
 - step by step

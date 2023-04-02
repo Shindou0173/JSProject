@@ -18,24 +18,19 @@
   <form>
     <!-- Username input -->
     <div class="form-outline mb-4">
-      <input type="text" id="registerUsername" class="form-control" placeholder="Tên tài khoản" style="text-align: center;"/>
+      <input type="text" #user class="form-control" placeholder="Email" style="text-align: center;"/>
       <label class="form-label" for="registerUsername"></label>
-    </div>
-    <!-- Email input -->
-    <div class="form-outline mb-4">
-      <input type="email" id="registerEmail" class="form-control" placeholder="Email" style="text-align: center;" />
-      <label class="form-label" for="registerEmail"></label>
     </div>
 
     <!-- Password input -->
     <div class="form-outline mb-4">
-      <input type="password" id="registerPassword" class="form-control" placeholder="Mật khẩu" style="text-align: center;" />
+      <input type="password" #pass class="form-control" placeholder="Mật khẩu" style="text-align: center;" />
       <label class="form-label" for="registerPassword"></label>
     </div>
 
     <!-- Repeat Password input -->
     <div class="form-outline mb-4">
-      <input type="password" id="registerRepeatPassword" class="form-control" placeholder="Nhập lại mật khẩu" style="text-align: center;" />
+      <input type="password" #repass class="form-control" placeholder="Nhập lại mật khẩu" style="text-align: center;" />
       <label class="form-label" for="registerRepeatPassword"></label>
     </div>
 
@@ -49,7 +44,7 @@
     </div>
 
     <!-- Submit button -->
-    <button type="submit" class="btn btn-primary btn-block mb-3">Sign in</button>
+    <button (click)="Register(user.value, pass.value, repass.value)" class="btn btn-primary btn-block mb-3">Register</button>
   </form>
 </div>
 </div>

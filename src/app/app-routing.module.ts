@@ -1,5 +1,3 @@
-import { OrderManagementComponent } from './components/ordermanagement/ordermanagement.component';
-//import { AdminComponent } from './components/admin/admin.component';
 import { ListingComponent } from './components/listing/listing.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { NgModule, Component } from '@angular/core';
@@ -10,12 +8,13 @@ import { AboutComponent } from './components/about/about.component';
 import { LoginComponent } from './components/login/login.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { PasswordComponent } from './components/password/password.component';
-import { BookingComponent } from './components/booking/booking.component';
 import { AddmonComponent } from './components/addmon/addmon.component';
 import { AdminpageComponent } from './components/adminpage/adminpage.component';
-import { CartComponent } from './components/cart/cart.component';
-import { CashComponent } from './components/cash/cash.component';
+import { HttpClientModule } from '@angular/common/http';
+import { StatisticComponent } from './components/statistic/statistic.component';
+import { OrderComponent } from './components/order/order.component';
 import { TableComponent } from './components/table/table.component';
+
 
 const routes: Routes = [
   {path:'Home', component: HomeComponent},
@@ -26,18 +25,18 @@ const routes: Routes = [
   {path: 'Signin', component:SigninComponent},
   {path: 'Password', component:PasswordComponent},
   {path: 'List', component:ListingComponent},
-  {path: 'Booking', component:BookingComponent},
   {path: 'Addmon', component:AddmonComponent},
   {path: 'Adminpage', component:AdminpageComponent},
-  {path: 'Cart', component:CartComponent},
-  {path: 'Cash', component:CashComponent},
-  {path: 'OrderManagement', component:OrderManagementComponent},
+  {path: 'Statistic', component:StatisticComponent},
   {path: 'Table', component:TableComponent},
-
+  {path: 'Order', component:OrderComponent},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes),
+    HttpClientModule
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

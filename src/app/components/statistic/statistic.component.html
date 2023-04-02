@@ -1,0 +1,23 @@
+<h1 style="text-align: center;">Welcome to statistic page, click the button below to generate your statistic</h1>
+<h2 style="text-align: center;">Choose your time to make statistic</h2>
+<div>
+  <h3>From</h3>
+  <input #from type="date">
+  <h3>to</h3>
+  <input #to type="date">
+</div>
+<table id="myTable">
+  <thead>
+      <th>Bill number</th>
+      <th>Product Name</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+  </thead>
+  <tbody>
+
+  </tbody>
+</table>
+<button (click)="onClick(from.value, to.value)">Generate</button>
