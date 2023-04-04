@@ -1,0 +1,23 @@
+
+<h1 style="text-align: center;">Chọn thời gian để xem doanh thu</h1>
+<div>
+  <input #from type="date" style="width: fit-content; margin-left: 10px;"> -<input #to type="date" style="width: fit-content;margin-left: 10px;" >
+
+</div>
+<table id="myTable">
+  <thead>
+      <th>Bill number</th>
+      <th>Product Name</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+  </thead>
+  <tbody>
+
+  </tbody>
+</table>
+
+<button class="btn btn-danger" (click)="onClick(from.value, to.value)">Generate</button>
+

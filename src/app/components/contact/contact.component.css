@@ -1,5 +1,6 @@
 
 .section {
+  background-color: aliceblue;
   padding: 10px 120px;
   position: relative;
   min-height: auto;
@@ -16,17 +17,7 @@
 }
 
 
-.bg-loaded {
-  opacity: 1;
-  height: 100%;
-}
 
-.bg {
-  opacity: 0;
-  transition: opacity 1s;
-  -webkit-transition: opacity 1s;
-  height: 100%;
-}
 
 
 .fill {

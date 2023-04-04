@@ -4,11 +4,11 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AddmonService {
+export class ReservationService {
 
   constructor(private http:HttpClient) { }
 
-  AddService(fromData: FormData):Observable<any>{
-    return this.http.post<any>('http://localhost:80/PHPapi/Product/AddProduct.php',fromData)
+  ReservationService(fromData: FormData):Observable<any>{
+    return this.http.post<any>('http://localhost:80/PHPapi/Reservation/CreateReservation.php',fromData);
   }
 }

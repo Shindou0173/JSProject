@@ -8,27 +8,27 @@
   <form>
     <!-- Name input -->
     <div class="form-outline mb-4">
-      <input type="text" id="Name" class="form-control" placeholder="Tên món ăn" />
+      <input type="text" #ProductName class="form-control" placeholder="Tên món ăn" />
 
     </div>
 
     <!-- Username input -->
     <div class="form-outline mb-4">
-      <input type="text" id="price" class="form-control" placeholder="Giá tiền" />
+      <input type="text" #Price class="form-control" placeholder="Giá tiền" />
     </div>
 
     <!-- input -->
     <div class="form-outline mb-4">
-      <input type="text" id="loai" class="form-control" placeholder="Loại món ăn" />
+      <input type="text" #ProductDesc class="form-control" placeholder="Mô tả" />
     </div>
 
     <!-- image input -->
     <div class="form-outline mb-4">
-      <input type="file" id="image" class="form-control" placeholder="Hình ảnh" />
+      <input type="file" #Img class="form-control" placeholder="Hình ảnh" />
     </div>
-    <!-- Submit button -->
-    <button type="submit" class="btn btn-primary btn-block mb-3">Thêm món ăn </button>
   </form>
+  <!-- Submit button -->
+  <button (click)="Addmon(ProductName.value, Price.value, ProductDesc.value, Img.value)" class="btn btn-primary btn-block mb-3">Thêm món ăn</button>
 </div>
 </div>
 </div>

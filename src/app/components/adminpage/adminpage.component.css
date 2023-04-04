@@ -1,53 +1,63 @@
-header{
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
 
+/*-------------------------------- END ----*/
+    #body-row {
+        margin-left: 0;
+        margin-right: 0;
+    }
 
-.sidebar-menu{
-  width: 260px;
-  height: 800px;
-  background: #f5a1c0;
-}
+    #sidebar-container {
+        min-height: 100vh;
+        background-color: #132644;
+        padding: 0;
+        /* flex: unset; */
+    }
 
+    .sidebar-expanded {
+        width: 230px;
+    }
 
-/* header{
-  height: 100%;
-}
+    .sidebar-collapsed {
+        /*width: 60px;*/
+        width: 100px;
+    }
 
-.div{
-  color: #e3e4e7;
-} */
+    /* ----------| Menu item*/
+    #sidebar-container .list-group a {
+        height: 50px;
+        color: white;
+    }
 
+    /* ----------| Submenu item*/
+    #sidebar-container .list-group li.list-group-item {
+        background-color: #132644;
+    }
 
-/* @import url('https://font.googleapis.com/css2?family=Poppins:wght@300;400;500;600display=swap');
+    #sidebar-container .list-group .sidebar-submenu a {
+        height: 45px;
+        padding-left: 30px;
+    }
 
-:root{
-  --main-color: #DD2F6E;
-  --color-dark: #1D2231;
-  --text-grey:  #8390A2;
-} */
+    .sidebar-submenu {
+        font-size: 0.9rem;
+    }
 
-/* *{
-  padding:0;
-  margin:0;
-  box-sizing: border-box;
-  list-style-type: none;
-  text-decoration: none;
-  font-family: 'Poppins', sans-serif;
-} */
+    /* ----------| Separators */
+    .sidebar-separator-title {
+        background-color: #132644;
+        height: 35px;
+    }
 
-/* .sidebar{
-  width: 345px;
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100%;
-  background: var(--main-color);
-}
- */
+    .sidebar-separator {
+        background-color: #132644;
+        height: 25px;
+    }
 
-/* .main-content{
-  margin-left:345px;
-} */
+    .logo-separator {
+        background-color: #132644;
+        height: 60px;
+    }
+
+    a.bg-dark {
+        background-color: #132644 !important;
+    }
