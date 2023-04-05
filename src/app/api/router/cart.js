@@ -1,25 +1,25 @@
 var express = require("express");
 var router = express.Router();
-var Booking = require("../model/booking");
+
+var Cart = require("../model/cart");
 
 router.get("/list", async function (req, res){
-  await Booking.find().then((data) =>{
+  await Cart.find().then((data) =>{
     res.send(data);
   });
 });
 
 router.post("/add", function (req, res){
   if(req.body){
-    let booking = new Booking();
-    booking.name = req.body.name;
-    booking.sdt = req.body.sdt;
-    booking.date = req.body.date;
-    booking.number = req.body.number;
-    booking.note = req.body.note;
-    booking.save();
+    let cart = new Cart();
+    cart.product_id = req.body.product_id;
+    cart.price = req.body.price;
+    cart.table = req.body.table;
+    cart.quantity = req.body.quantity;
+    cart.save();
     res.send({
       error: null,
-      message: "Add Booking successfully.",
+      message: "Add cart successfully.",
       resolved: true,
     });
   } else {
@@ -30,14 +30,14 @@ router.post("/add", function (req, res){
 }
 });
 
-//edit table
+//api editproduct
 router.put("/edit/:id", async function (req, res) {
-  const { name, sdt, number, note} = req.body
-  const booking = await Booking.findByIdAndUpdate(req.params.id, { name, sdt, number, note}, { new: true });
-  if (booking) {
+  const { product_id , price, table, quantity, time} = req.body
+  const cart = await Cart.findByIdAndUpdate(req.params.id, { product_id , price, table, quantity}, { new: true });
+  if (cart) {
     res.send({
       error: null,
-      message: "edit booking successfully.",
+      message: "edit product successfully.",
       resolved: true,
     });
   } else {
@@ -48,13 +48,13 @@ router.put("/edit/:id", async function (req, res) {
   }
 });
 
-//delete table
+//delete product
 router.delete("/delete/:id", async function (req, res) {
-  const booking = await Booking.findByIdAndDelete(req.params.id);
-  if (booking) {
+  const cart = await Cart.findByIdAndDelete(req.params.id);
+  if (cart) {
     res.send({
       error: null,
-      message: "delete booking successfully.",
+      message: "delete product successfully.",
       resolved: true,
     });
   } else {

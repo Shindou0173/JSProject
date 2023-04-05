@@ -17,5 +17,7 @@ const monSchema = new mongoose.Schema({
         required: false
     }
 });
+
+
 const mon = mongoose.model('mon', monSchema);
 module.exports = mon;

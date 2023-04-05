@@ -6,6 +6,8 @@ var app=express();
 app.use(express.json());
 app.use('/product', require('./router/product'));
 app.use('/booking', require('./router/booking'));
+app.use('/cart', require('./router/cartRouter'));
+app.use('/auth', require('./router/login'));
 var http = require('http');
 var port = Number(process.env.PORT) || 3000;
 app.set('port', port);
