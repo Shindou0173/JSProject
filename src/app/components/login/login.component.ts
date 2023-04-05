@@ -11,12 +11,21 @@ export class LoginComponent {
 
   }
   Login(user:string, pass:string){
-    const formData:FormData= new FormData();
-    formData.append('user',user);
-    formData.append('pass',pass);
-    fetch('http://localhost:80/PHPapi/Login/Signin.php',{
+    interface MyJsonObject {
+      username: string;
+      password: string;
+    }
+
+    const myObject: MyJsonObject = {
+      username: "quy@123",
+      password: "1"
+    };
+
+    const jsonString = JSON.stringify(myObject);
+
+    fetch('http://localhost:3000/login',{
       method: 'POST',
-      body: formData
+      body: jsonString
     })
     .then(res => res.json())
     .then(data=> {
