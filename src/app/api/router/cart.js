@@ -4,9 +4,50 @@ var router = express.Router();
 var Cart = require("../model/cart");
 
 router.get("/list", async function (req, res){
-  await Cart.find().then((data) =>{
-    res.send(data);
-  });
+  const cartList = await Cart.aggregate([
+    {
+      $match: {
+        cartId: 'test2'
+      },
+    },
+    {
+      $lookup:{
+        from: 'mon',
+        foreignField: 'productId',
+        localField: 'productId',
+        as: 'mons'
+      }
+    },
+    {
+      $unwind: {
+        path: '$mons',
+        preserveNullAndEmptyArrays: true
+      }
+    },
+    {
+      $addFields: {
+        productId: '$mons.productId',
+        productName: '$mons.name',
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        cartId: 1,
+        price: 1,
+        table: 1,
+        quantity: 1,
+        time: 1,
+      }
+    },
+    {
+      $sort: {
+        time: 1
+      }
+    }
+  ]);
+  console.log(JSON.stringify(cartList))
+  res.status(201).json(cartList);
 });
 
 router.post("/add", function (req, res){
@@ -16,6 +57,7 @@ router.post("/add", function (req, res){
     cart.price = req.body.price;
     cart.table = req.body.table;
     cart.quantity = req.body.quantity;
+    cart.items = req.body;
     cart.save();
     res.send({
       error: null,
