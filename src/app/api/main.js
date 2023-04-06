@@ -8,6 +8,7 @@ app.use('/product', require('./router/product'));
 app.use('/booking', require('./router/booking'));
 app.use('/cart', require('./router/cart'));
 app.use('/auth', require('./router/login'));
+app.use('/bill', require('./router/bill'));
 var http = require('http');
 var port = Number(process.env.PORT) || 3000;
 app.set('port', port);

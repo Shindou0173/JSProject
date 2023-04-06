@@ -1,22 +1,38 @@
 const mongoose = require('mongoose');
 const bookingSchema = new mongoose.Schema({
+    resID: {
+      type: String,
+      required: false
+    },
     name: {
         type: String,
         required: true,
     },
-    sdt: {
+    email: {
         type: String,
         required: true
     },
-    number: {
+    phoneNumber: {
         type: Number,
         required: true
     },
     date: {
-        type: Date,
-        default: Date.now()
+        type: String,
+        default: false
     },
+    time: {
+      type: String,
+      default: false
+  },
     note:{
+      type: String,
+      required: false
+    },
+    status:{
+      type: Boolean,
+      default: false
+    },
+    username:{
       type: String,
       required: false
     }

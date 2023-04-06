@@ -1,10 +1,10 @@
 var express = require("express");
 var router = express.Router();
-var Booking = require("../model/bill");
+var Bill = require("../model/bill");
 
 //GET
 router.get("/list", async function (req, res){
-  await Booking.find().then((data) =>{
+  await Bill.find().then((data) =>{
     res.send(data);
   });
 });
@@ -12,12 +12,12 @@ router.get("/list", async function (req, res){
 //ADD
 router.post("/add", function (req, res){
   if(req.body){
-    let bill = new bill();
+    let bill = new Bill();
     bill.bill_number = req.body.bill_number;
     bill.product_id = req.body.product_id;
     bill.quantity = req.body.quantity;
     bill.price = req.body.price;
-    bill.date = Date.now();
+    bill.date = req.body.date;
     bill.cart_id = req.body.cart_id;
     bill.save();
     res.send({
@@ -36,7 +36,7 @@ router.post("/add", function (req, res){
 //UPDATE
 router.put("/edit/:id", async function (req, res) {
   const { product_id, quantity, price, cart_id} = req.body
-  const booking = await Booking.findByIdAndUpdate(req.params.id, { product_id, quantity, price, cart_id}, { new: true });
+  const booking = await Bill.findByIdAndUpdate(req.params.id, { product_id, quantity, price, cart_id}, { new: true });
   if (bill) {
     res.send({
       error: null,
@@ -53,7 +53,7 @@ router.put("/edit/:id", async function (req, res) {
 
 //DELETE
 router.delete("/delete/:id", async function (req, res) {
-  const bill = await bill.findByIdAndDelete(req.params.id);
+  const bill = await Bill.findByIdAndDelete(req.params.id);
   if (bill) {
     res.send({
       error: null,
