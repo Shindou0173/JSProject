@@ -1,9 +1,8 @@
 var express = require("express");
 var router = express.Router();
-//DB connect
 var Mon = require("../model/mon");
 
-
+//Get all
 router.get("/list", async function (req, res) {
   let datas = [];
   await Mon.find().then((data) => {
@@ -12,6 +11,7 @@ router.get("/list", async function (req, res) {
   res.send(datas);
 });
 
+//Create
 router.post("/add", function (req, res) {
   if (req.body) {
     let mon = new Mon();
