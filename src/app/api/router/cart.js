@@ -3,51 +3,18 @@ var router = express.Router();
 
 var Cart = require("../model/cart");
 
-router.get("/list", async function (req, res){
-  const cartList = await Cart.aggregate([
-    {
-      $match: {
-        cartId: 'test2'
-      },
-    },
-    {
-      $lookup:{
-        from: 'mon',
-        foreignField: 'productId',
-        localField: 'productId',
-        as: 'mons'
-      }
-    },
-    {
-      $unwind: {
-        path: '$mons',
-        preserveNullAndEmptyArrays: true
-      }
-    },
-    {
-      $addFields: {
-        productId: '$mons.productId',
-        productName: '$mons.name',
-      }
-    },
-    {
-      $project: {
-        _id: 0,
-        cartId: 1,
-        price: 1,
-        table: 1,
-        quantity: 1,
-        time: 1,
-      }
-    },
-    {
-      $sort: {
-        time: 1
-      }
+//get cart by table
+router.get("/get/:table", async (req, res) => {
+  try {
+    const carts = await Cart.find({ table: req.params.table });
+    if (!carts || carts.length === 0) {
+      return res.status(404).send({ error: "No carts found for this table" });
     }
-  ]);
-  console.log(JSON.stringify(cartList))
-  res.status(201).json(cartList);
+    res.send(carts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Server error" });
+  }
 });
 
 router.post("/add", function (req, res){
@@ -79,7 +46,7 @@ router.put("/edit/:id", async function (req, res) {
   if (cart) {
     res.send({
       error: null,
-      message: "edit product successfully.",
+      message: "edit cart successfully.",
       resolved: true,
     });
   } else {
@@ -96,7 +63,7 @@ router.delete("/delete/:id", async function (req, res) {
   if (cart) {
     res.send({
       error: null,
-      message: "delete product successfully.",
+      message: "delete cart successfully.",
       resolved: true,
     });
   } else {
@@ -106,5 +73,6 @@ router.delete("/delete/:id", async function (req, res) {
     });
   }
 });
+
 
 module.exports = router;
