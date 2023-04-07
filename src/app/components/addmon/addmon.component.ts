@@ -6,18 +6,18 @@ import { AddmonService } from '../../services/addmon.services';
   styleUrls: ['./addmon.component.css']
 })
 export class AddmonComponent {
-  constructor(){
+  constructor(){}
+  Addmon(ProductName:string, Price:string, ProductDesc:string){
+    const mon = {
+      name: ProductName,
+      price: Price,
+      desc: ProductDesc
+    };
 
-  }
-  Addmon(ProductName:string, Price:string, ProductDesc:string, Img:string){
-    const formData:FormData = new FormData()
-    formData.append('ProductName',ProductName);
-    formData.append('Price',Price);
-    formData.append('ProductDesc',ProductDesc);
-    formData.append('Img',Img);
-    fetch('http://localhost:80/PHPapi/Product/AddProduct.php', {
+    fetch('http://localhost:3000/product/add', {
+      headers: {'Content-Type': 'application/json'},
       method: 'POST',
-      body: formData
+      body: JSON.stringify(mon)
     })
     .then(res => res.json())
     .then(data => {

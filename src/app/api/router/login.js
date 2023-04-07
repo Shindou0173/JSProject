@@ -33,14 +33,14 @@ router.post("/RegisterAdmin", async (req, res) => {
 //FETCH
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
-  const user = await Account.findOne({
+  const user = await Account.find({
     select: ['authority'],
     where: { username: username, password: password },
   });
   if (user) {
-    res.status(200).json({ authority: user.authority });
+    res.json(user.authority);
   } else {
-    res.status(401).send("failed");
+    res.send("failed");
   }
 });
 module.exports = router;

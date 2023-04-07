@@ -3,6 +3,8 @@ var createError = require('http-errors');
 var path = require('path');
 var mongoose = require('./config/connectdb');
 var app=express();
+const cors = require('cors');
+app.use(cors())
 app.use(express.json());
 app.use('/product', require('./router/product'));
 app.use('/booking', require('./router/booking'));

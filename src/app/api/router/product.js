@@ -37,16 +37,9 @@ router.put("/edit/:id", async function (req, res) {
   const { name , price , desc } = req.body
   const mon = await Mon.findByIdAndUpdate(req.params.id, {name , price , desc}, { new: true });
   if (mon) {
-    res.send({
-      error: null,
-      message: "edit product successfully.",
-      resolved: true,
-    });
+    res.send("Edit OK!");
   } else {
-    res.json({
-      error: 400,
-      message: "Do not save record",
-    });
+    res.json("Failed");
   }
 });
 

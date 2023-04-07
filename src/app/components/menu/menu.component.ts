@@ -1,6 +1,6 @@
 import{Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http'
-import { getCookie } from 'typescript-cookie';
+import { getCookie, setCookie } from 'typescript-cookie';
 
 @Component({
   selector:'app-menu',
@@ -13,25 +13,25 @@ export class MenuComponent{
   constructor() {
     const queryParams = new URLSearchParams(window.location.search.substring(1));
     const table = queryParams.get("TableNo");
-    fetch('http://localhost:80/PHPapi/Product/GetProduct.php')
+    fetch('http://localhost:3000/product/list')
     .then(response => response.json())
     .then(data => {
       interface Product {
-        ProductID: string;
-        ProductName: string;
-        Price: string;
-        ProductDesc: string;
-        Img: string;
+        _id: string;
+        name: string;
+        price: string;
+        desc: string;
       }
       const tableBody = document.querySelector('#myTable tbody') as HTMLTableElement;
         if (tableBody) {
-          data.forEach((product:Product) => {
+          data[0].forEach((product:Product) => {
             const row = tableBody.insertRow();
-            row.insertCell().textContent = product.ProductID ? product.ProductID : 'ko thay';
-            row.insertCell().textContent = product.ProductName ? product.ProductName : 'ko thay';
-            row.insertCell().textContent = product.Price ? product.Price +' VND' : 'ko thay';
-            row.insertCell().textContent = product.ProductDesc ? product.ProductDesc : 'ko thay';
-            row.insertCell().textContent = product.Img ? product.Img : 'ko thay';
+            row.insertCell().textContent = product._id ? product._id : 'ko thay';
+            row.insertCell().textContent = product.name ? product.name : 'ko thay';
+            row.insertCell().textContent = product.price ? product.price +' VND' : 'ko thay';
+            row.insertCell().textContent = product.desc ? product.desc : 'ko thay';
+            row.insertCell().textContent = "";
+            setCookie('permission',"1");
             if(getCookie('permission') == "1"){
               if(table == null){
                 row.contentEditable = 'true';
@@ -40,20 +40,18 @@ export class MenuComponent{
                 const ApplyBtn = document.createElement('button');
                 ApplyBtn.textContent = 'Edit';
                 ApplyBtn.addEventListener('click', () => {
-                  const formData:FormData = new FormData();
-                  formData.append('ProductID',product.ProductID);
-                  formData.append('ProductName',row.cells[1].textContent!);
-                  formData.append('Price',row.cells[2].textContent!);
-                  formData.append('ProductDesc',row.cells[3].textContent!);
-                  formData.append('Img',row.cells[4].textContent!);
-                  fetch('http://localhost:80/PHPapi/Product/EditProduct.php', {
-                    method: 'POST',
-                    body: formData
+                  const mon = {
+                    name: row.cells[1].textContent,
+                    price: row.cells[2].textContent,
+                    desc: row.cells[3].textContent
+                  };
+                  fetch('http://localhost:3000/product/edit/'+product._id+'', {
+                    headers: {'Content-Type': 'application/json'},
+                    method: 'PUT',
+                    body: JSON.stringify(mon)
                   })
-                  .then(res => res.json())
-                  .then(data => {
-                    console.log(formData.get('ProductDesc'));
-                    alert(data)
+                  .then(res => {
+                    alert('Edit OK!');
                     location.reload();
                   })
                 });
@@ -62,7 +60,16 @@ export class MenuComponent{
                 const cancelBtn = document.createElement('button');
                 cancelBtn.textContent = 'Delete';
                 cancelBtn.addEventListener('click', () => {
-                  fetch('http://localhost:80/PHPapi/Product/DeleteProduct.php?ProductID='+product.ProductID+'')
+                  const mon = {
+                    name: row.cells[1].textContent,
+                    price: row.cells[2].textContent,
+                    desc: row.cells[3].textContent
+                  };
+                  fetch('http://localhost:3000/product/delete/'+product._id+'', {
+                    headers: {'Content-Type': 'application/json'},
+                    method: 'DELETE',
+                    body: JSON.stringify(mon)
+                  })
                   .then(res=>{
                     alert('Delete OK!');
                     location.reload();
@@ -82,7 +89,7 @@ export class MenuComponent{
                   formData.append('TableNo',table!);
                   formData.append('ProductID',row.cells[0].textContent!);
                   formData.append('Quantity',row.cells[5].textContent!);
-                  var pri = parseInt(row.cells[5].textContent!, 10)*parseInt(product.Price, 10);
+                  var pri = parseInt(row.cells[5].textContent!, 10)*parseInt(product.price, 10);
                   formData.append('Price',pri.toString());
                   formData.append('Time', new Date().toLocaleString());
                   fetch('http://localhost:80/PHPapi/Cart/CreateCart.php', {
