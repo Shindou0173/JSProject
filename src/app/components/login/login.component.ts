@@ -1,5 +1,4 @@
 import { json, response } from 'express';
-import { LoginService } from '../../services/login.services';
 import { Component } from '@angular/core';
 import { getCookie, setCookie } from 'typescript-cookie'
 
@@ -9,7 +8,7 @@ import { getCookie, setCookie } from 'typescript-cookie'
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  constructor(private loginService: LoginService){
+  constructor(){
 
   }
   Login(user: string, pass: string) {

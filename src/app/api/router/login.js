@@ -10,7 +10,7 @@ router.post("/RegisterClient", async (req, res) => {
   //console.log(req.body);
     data.username= req.body.username;
     data.password=req.body.password;
-    data.authority= "0";
+    data.authority= "2";
 
 if (data !==null) {
   await data.save();
@@ -31,18 +31,6 @@ router.post("/RegisterAdmin", async (req, res) => {
   });
 });
 
-//Register Client
-router.post("/RegisterClient", async (req, res) => {
-  const data = new Account({
-    username: req.body.username,
-    password: req.body.password,
-    authority: "2",
-  });
-
-  const val = await data.save().then(() => {
-    res.status(201).json({ message: "Register successful", errorCode: 201 });
-  });
-});
 
 //FETCH
 router.post('/login', async (req, res) => {

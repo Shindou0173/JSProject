@@ -11,19 +11,21 @@ export class SigninComponent {
 
   }
   Register(user:string, pass:string, repass:string){
+    const info = {
+      username: user,
+      password: pass
+    }
+    console.log(JSON.stringify(info))
     if(pass !== repass){
       alert("Incorrect password retype, try again!");
     }else{
-      const formData:FormData = new FormData();
-      formData.append('user', user);
-      formData.append('pass', pass);
-      this.registerService.RegisterService(formData).subscribe
-          (res=>{
-              alert("Register OK! You can now use this accout!");
-        },err=>{
-          alert(err);
-        }
-      )
+      fetch('http://localhost:3000/auth/RegisterClient',{
+        headers: { 'Content-Type':'application/json' },
+        method: 'POST',
+        body: JSON.stringify(info)
+      }).then(res => console.log(res))
     }
+    alert('Register Success!')
+    location.href = 'http://localhost:4200/Login'
   }
 }
