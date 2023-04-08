@@ -31,7 +31,6 @@ export class MenuComponent{
             row.insertCell().textContent = product.price ? product.price +' VND' : 'ko thay';
             row.insertCell().textContent = product.desc ? product.desc : 'ko thay';
             row.insertCell().textContent = "";
-            setCookie('permission',"1");
             if(getCookie('permission') == "1"){
               if(table == null){
                 row.contentEditable = 'true';
@@ -80,25 +79,28 @@ export class MenuComponent{
                 //Quantity
                 row.contentEditable = 'false';
                 row.insertCell().textContent = "";
-                row.cells[5].contentEditable = 'true';
+                row.cells[4].contentEditable = 'true';
                 //Order button
                 const orderBtn = document.createElement('button');
                 orderBtn.textContent = 'Order';
                 orderBtn.addEventListener('click', () => {
-                  const formData:FormData = new FormData();
-                  formData.append('TableNo',table!);
-                  formData.append('ProductID',row.cells[0].textContent!);
-                  formData.append('Quantity',row.cells[5].textContent!);
-                  var pri = parseInt(row.cells[5].textContent!, 10)*parseInt(product.price, 10);
-                  formData.append('Price',pri.toString());
-                  formData.append('Time', new Date().toLocaleString());
-                  fetch('http://localhost:80/PHPapi/Cart/CreateCart.php', {
+                  var pri = parseInt(row.cells[2].textContent!)*parseInt(row.cells[4].textContent!);
+                  const Newcart = {
+                    product_id: row.cells[0].textContent,
+                    price: pri.toString(),
+                    table: table,
+                    quantity: row.cells[4].textContent
+                  };
+
+                  fetch('http://localhost:3000/cart/add', {
+                    headers: {'Content-Type': 'application/json'},
                     method: 'POST',
-                    body: formData
+                    body: JSON.stringify(Newcart)
                   })
                   .then(res => res.json())
                   .then(data => {
-                    alert(data);
+                    console.log(data)
+                    alert('sd')
                     location.reload();
                   })
                 });

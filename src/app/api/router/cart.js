@@ -17,6 +17,7 @@ router.get("/get/:table", async (req, res) => {
   }
 });
 
+//add
 router.post("/add", function (req, res){
   if(req.body){
     let cart = new Cart();
@@ -24,7 +25,7 @@ router.post("/add", function (req, res){
     cart.price = req.body.price;
     cart.table = req.body.table;
     cart.quantity = req.body.quantity;
-    cart.items = req.body;
+    cart.time = Date.now();
     cart.save();
     res.send({
       error: null,

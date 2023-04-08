@@ -13,11 +13,10 @@ router.get("/list", async function (req, res){
 router.post("/add", function (req, res){
   if(req.body){
     let bill = new Bill();
-    bill.bill_number = req.body.bill_number;
     bill.product_id = req.body.product_id;
     bill.quantity = req.body.quantity;
     bill.price = req.body.price;
-    bill.date = req.body.date;
+    bill.date = Date.now();
     bill.cart_id = req.body.cart_id;
     bill.save();
     res.send({

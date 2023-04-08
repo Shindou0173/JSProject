@@ -17,6 +17,12 @@ router.get("/get/:id", async function (req, res) {
     res.send(product);
 });
 
+//Get Product By Name
+router.post("/name", async function (req, res) {
+  const product = await Mon.findOne(req.params.name);
+  res.send(product);
+});
+
 //Create
 router.post("/add", function (req, res) {
   if (req.body) {

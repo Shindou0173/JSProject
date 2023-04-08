@@ -92,30 +92,35 @@ export class ListingComponent{
     const queryParams = new URLSearchParams(window.location.search.substring(1));
     const table = queryParams.get("TableNo");
     const tableBody = document.querySelector('#myTable tbody') as HTMLTableElement;
-    var billNumber = 0;
-    fetch('http://localhost:80/PHPapi/Bill/GetAllBill.php')
-    .then(res => res.json())
-    .then(data => {
-      billNumber = data.length;
-    })
     if (tableBody) {
       const rows = tableBody.rows;
       const formData: FormData = new FormData();
       for (let i = 0; i < rows.length; i++) {
         const row = rows[i];
-        formData.append('BillNumber', billNumber.toString());
-        formData.append('ProductName', row.cells[1].textContent!);
-        formData.append('Quantity', row.cells[2].textContent!);
-        formData.append('Price', row.cells[3].textContent!);
-        fetch('http://localhost:80/PHPapi/Bill/CreateBill.php', {
+        const name ={
+          name : row.cells[2].textContent
+        }
+        fetch('http://localhost:3000/product/name', {
+          headers : {'Content-Type':'application/json'},
           method: 'POST',
-          body: formData
+          body: JSON.stringify(name)
         })
         .then(res => res.json())
         .then(data => {
-          fetch('http://localhost:80/PHPapi/Cart/DeleteCart.php?TableNo='+table+'&ProductName='+row.cells[1].textContent!+'')
-          .then(res => res.json())
-          .then(data =>{
+          const bill = {
+            product_id: data._id,
+            quantity: row.cells[3].textContent,
+            price: row.cells[4].textContent,
+            cart_id: row.cells[0].textContent
+          };
+          console.log(JSON.stringify(bill))
+          fetch('http://localhost:3000/bill/add', {
+            headers : {'Content-Type':'application/json'},
+            method: 'POST',
+            body: JSON.stringify(bill)
+          })
+          fetch('http://localhost:3000/cart/delete/'+row.cells[0].textContent, {
+            method: 'DELETE'
           })
         })
       }

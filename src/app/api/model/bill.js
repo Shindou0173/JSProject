@@ -1,20 +1,16 @@
 const mongoose = require('mongoose');
 const billSchema = new mongoose.Schema({
-    bill_number: {
-      type:String,
-      required:true
-    },
     product_id:{
           type:String,
-          required:true
+          required:false
     },
     quantity:{
-        type: Number,
-        required:true
+        type: String,
+        required:false
     },
     price:{
-      type: Number,
-      required:true
+      type: String,
+      required:false
     },
     date:{
         type: Date,
@@ -22,7 +18,7 @@ const billSchema = new mongoose.Schema({
     },
     cart_id:{
         type: String,
-        default: true
+        default: false
     }
 });
 const bill = mongoose.model('bill', billSchema);
