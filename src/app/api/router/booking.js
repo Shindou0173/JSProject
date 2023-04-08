@@ -13,9 +13,12 @@ router.post("/add", function (req, res){
     let booking = new Booking();
     booking.name = req.body.name;
     booking.sdt = req.body.sdt;
+    booking.email = req.body.email;
     booking.date = req.body.date;
-    booking.number = req.body.number;
+    booking.time = req.body.time;
     booking.note = req.body.note;
+    booking.status = false;
+    booking.username = req.body.username;
     booking.save();
     res.send({
       error: null,
@@ -30,20 +33,27 @@ router.post("/add", function (req, res){
 }
 });
 
-//edit table
-router.put("/edit/:id", async function (req, res) {
-  const { name, sdt, number, note} = req.body
-  const booking = await Booking.findByIdAndUpdate(req.params.id, { name, sdt, number, note}, { new: true });
-  if (booking) {
-    res.send({
-      error: null,
-      message: "edit booking successfully.",
-      resolved: true,
-    });
-  } else {
+//Apply table
+router.put("/apply/:id", async function (req, res) {
+  try {
+    const booking = await Booking.findByIdAndUpdate(req.params.id, { status: 'true' }, { new: true });
+    if (booking) {
+      res.send({
+        error: null,
+        message: "Booking status updated successfully.",
+        resolved: true,
+      });
+    } else {
+      res.json({
+        error: 400,
+        message: "Record not found.",
+      });
+    }
+  } catch (error) {
+    console.log(error);
     res.json({
-      error: 400,
-      message: "Do not save record",
+      error: 500,
+      message: "Internal server error.",
     });
   }
 });
