@@ -1,5 +1,4 @@
 import { Component, VERSION } from '@angular/core';
-import { AddmonService } from '../../services/addmon.services';
 @Component({
   selector: 'app-addmon',
   templateUrl: './addmon.component.html',

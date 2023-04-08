@@ -30,11 +30,13 @@ export class LoginComponent {
           location.href = 'http://localhost:4200/Adminpage'
         } else if (data == "2") {
           setCookie("permission", "2");
+
           alert("Login successful!");
           location.href = 'http://localhost:4200/Home'
         } else {
           alert("Login failed")
         }
+        setCookie("user", user);
       })
       .catch(err => {
         console.log(err);

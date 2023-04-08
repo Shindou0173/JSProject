@@ -1,4 +1,3 @@
-import { AddmonService } from './services/addmon.services';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,13 +15,13 @@ import { AddmonComponent } from './components/addmon/addmon.component';
 import { AdminpageComponent } from './components/adminpage/adminpage.component';
 import { OrderComponent } from './components/order/order.component';
 import { StatisticComponent } from './components/statistic/statistic.component';
+import { BookingComponent } from './components/booking/booking.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
     AboutComponent,
-    ContactComponent,
     HeaderComponent,
     FooterComponent,
     LoginComponent,
@@ -33,6 +32,7 @@ import { StatisticComponent } from './components/statistic/statistic.component';
     AdminpageComponent,
     OrderComponent,
     StatisticComponent,
+    BookingComponent,
   ],
   imports: [
     BrowserModule,
