@@ -16,7 +16,12 @@ router.post("/add", function (req, res){
     bill.product_id = req.body.product_id;
     bill.quantity = req.body.quantity;
     bill.price = req.body.price;
-    bill.date = Date.now();
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const date = String(now.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${date}`;
+    bill.date = formattedDate.substring(0, 10);
     bill.cart_id = req.body.cart_id;
     bill.save();
     res.send({

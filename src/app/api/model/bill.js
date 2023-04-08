@@ -13,7 +13,7 @@ const billSchema = new mongoose.Schema({
       required:false
     },
     date:{
-        type: Date,
+        type: String,
         default: Date.now()
     },
     cart_id:{
