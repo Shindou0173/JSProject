@@ -7,61 +7,51 @@ import { Component } from '@angular/core';
 })
 export class OrderComponent {
   constructor(){
-    fetch('http://localhost:80/PHPapi/Reservation/GetReserInfo.php')
+    fetch('http://localhost:3000/booking/list')
     .then(res => res.json())
     .then(data=>{
       interface Reser{
-        resID :string;
-        name:string;
-        email:string;
-        phoneNumber:string;
-        date:string;
-        time:string;
-        note:string;
-        status:string;
-        ByUser:string;
+        _id: string;
+        name: string;
+        email: string;
+        sdt: string;
+        date: string;
+        time: string;
+        note: string;
+        status: string;
+        username: string;
       }
       console.log('Data:', data);
       const tableBody = document.querySelector('#myTable tbody') as HTMLTableElement;
       if (tableBody) {
-        data.forEach((reser:Reser) => {
+        data.forEach((product:Reser) => {
           const row = tableBody.insertRow();
-          row.insertCell().textContent = reser.resID ? reser.resID : 'ko thaays';
-          row.insertCell().textContent = reser.name ? reser.name : 'ko thaays';
-          row.insertCell().textContent = reser.email ? reser.email : 'ko thaays';
-          row.insertCell().textContent = reser.phoneNumber ? reser.phoneNumber : 'ko thaays';
-          row.insertCell().textContent = reser.date ? reser.date : 'ko thaays';
-          row.insertCell().textContent = reser.time ? reser.time : 'ko thaays';
-          row.insertCell().textContent = reser.note ? reser.note : 'ko thaays';
-          row.insertCell().textContent = (reser.status == "1")? 'Applied' : 'Non-Applied';
-          row.insertCell().textContent = reser.ByUser ? reser.ByUser : 'ko thaays';
+          row.insertCell().textContent = product._id ? product._id : 'ko thay';
+            row.insertCell().textContent = product.name ? product.name : 'ko thay';
+            row.insertCell().textContent = product.email ? product.email +' VND' : 'ko thay';
+            row.insertCell().textContent = product.sdt ? product.sdt : 'ko thay';
+            row.insertCell().textContent = product.time ? product.time : 'ko thay';
+            row.insertCell().textContent = product.date ? product.date : 'ko thay';
+            row.insertCell().textContent = product.note ? product.note : 'ko thay';
+            row.insertCell().textContent = product.status ? product.status : 'ko thay';
+            row.insertCell().textContent = product.username ? product.username : 'ko thay';
           //Apply
           const ApplyBtn = document.createElement('button');
           ApplyBtn.textContent = 'Apply';
           ApplyBtn.addEventListener('click', () => {
-            fetch('http://localhost:80/PHPapi/Reservation/ApplyReser.php?resID='+reser.resID+'.php')
+            fetch('http://localhost:3000/booking/apply/'+product._id)
             .then(res=>{
               alert('Apply OK!');
             })
           });
           row.insertCell().appendChild(ApplyBtn);
-          //Cancel
-          const cancelBtn = document.createElement('button');
-          cancelBtn.textContent = 'Cancel';
-          cancelBtn.addEventListener('click', () => {
-            fetch('http://localhost:80/PHPapi/Reservation/CancelReser.php?resID='+reser.resID+'.php')
-            .then(res=>{
-              alert('Apply OK!');
-            })
-          });
-          row.insertCell().appendChild(cancelBtn);
           //Delete
           const DeleteBtn = document.createElement('button');
-          DeleteBtn.textContent = 'Delete';
+          DeleteBtn.textContent = 'Reject and Delete';
           DeleteBtn.addEventListener('click', () => {
-            fetch('http://localhost:80/PHPapi/Reservation/DeleteReser.php?resID='+reser.resID+'.php')
+            fetch('http://localhost:3000/booking/delete/'+product._id)
             .then(res=>{
-              alert('Cancel OK!');
+              alert('Delete OK!');
             })
           });
           row.insertCell().appendChild(DeleteBtn);

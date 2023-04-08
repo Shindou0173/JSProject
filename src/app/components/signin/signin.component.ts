@@ -1,4 +1,4 @@
-import { RegisterService } from './../../services/register.services';
+
 import { Component } from '@angular/core';
 
 @Component({
@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./signin.component.css']
 })
 export class SigninComponent {
-  constructor(private registerService: RegisterService){
+  constructor(){
 
   }
   Register(user:string, pass:string, repass:string){
