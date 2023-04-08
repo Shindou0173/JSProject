@@ -10,57 +10,69 @@ export class ListingComponent{
   constructor() {
     const queryParams = new URLSearchParams(window.location.search.substring(1));
     const table = queryParams.get("TableNo");
-    fetch('http://localhost:80/PHPapi/Cart/GetCart.php?TableNo='+table)
+    fetch('http://localhost:3000/cart/get/'+table)
     .then(response => response.json())
     .then(data => {
       interface Cart {
-        TableNo: string;
-        ProductName: string;
-        Quantity: string;
-        Price: string;
-        Time:string;
+        _id: string;
+        table: string;
+        product_id: string;
+        quantity: string;
+        price: string;
+        time:string;
       }
       const tableBody = document.querySelector('#myTable tbody') as HTMLTableElement;
         if (tableBody) {
           data.forEach((cart:Cart) => {
             const row = tableBody.insertRow();
-            row.insertCell().textContent = cart.TableNo ? cart.TableNo : 'ko thay';
-            row.insertCell().textContent = cart.ProductName ? cart.ProductName : 'ko thay';
-            row.insertCell().textContent = cart.Quantity ? cart.Quantity : 'ko thay';
-            row.insertCell().textContent = cart.Price ? cart.Price +' VND' : 'ko thay';
-            row.insertCell().textContent = cart.Time ? cart.Time : 'ko thay';
-            row.contentEditable = 'true';
-            row.cells[0].contentEditable='false';
-            row.cells[1].contentEditable='false';
-            row.cells[3].contentEditable='false';
-            row.cells[4].contentEditable='false';
+            row.insertCell().textContent = cart._id ? cart._id : 'ko thay';
+            row.insertCell().textContent = cart.table ? cart.table : 'ko thay';
+            row.insertCell().textContent = cart.product_id ? cart.product_id : 'ko thay';
+            row.insertCell().textContent = cart.quantity ? cart.quantity : 'ko thay';
+            row.insertCell().textContent = cart.price ? cart.price +' VND' : 'ko thay';
+            row.insertCell().textContent = cart.time ? cart.time : 'ko thay';
+            row.contentEditable = 'false';
+            row.cells[3].contentEditable='true';
+
+            //Fetch product details
+            fetch(`http://localhost:3000/product/get/`+cart.product_id)
+            .then(res => res.json())
+            .then(product => {
+              row.cells[2].textContent = product.name;
+            });
+
             //Edit button
             const ApplyBtn = document.createElement('button');
             ApplyBtn.textContent = 'Edit';
             ApplyBtn.addEventListener('click', () => {
-              const formData:FormData = new FormData();
-              formData.append('TableNo',cart.TableNo);
-              formData.append('ProductName',row.cells[1].textContent!);
-              formData.append('Quantity',row.cells[2].textContent!);
-              var dg = parseInt(row.cells[3].textContent!) / parseInt(cart.Quantity);
-              var pri = dg * parseInt(row.cells[2].textContent!);
-              formData.append('Price',pri.toString());
-              fetch('http://localhost:80/PHPapi/Cart/EditCart.php', {
-                method: 'POST',
-                body: formData
+              var dg = parseInt(cart.price!) / parseInt(cart.quantity);
+              var pri = dg * parseInt(row.cells[3].textContent!);
+              const don = {
+                table: cart.table,
+                product_id: cart.product_id,
+                quantity: row.cells[3].textContent,
+                price: pri
+              };
+              fetch('http://localhost:3000/cart/edit/'+cart._id, {
+                headers: {'Content-Type' : 'application/json'},
+                method: 'PUT',
+                body: JSON.stringify(don)
               })
               .then(res => res.json())
               .then(data => {
-                alert(data)
+                alert("Edit OK!")
                 location.reload();
               })
             });
             row.insertCell().appendChild(ApplyBtn);
+
             //Delete button
             const cancelBtn = document.createElement('button');
             cancelBtn.textContent = 'Delete';
             cancelBtn.addEventListener('click', () => {
-              fetch('http://localhost:80/PHPapi/Cart/DeleteCart.php?TableNo='+cart.TableNo+'&ProductName='+cart.ProductName)
+              fetch('http://localhost:3000/cart/delete/'+cart._id,{
+                method:'DELETE'
+              })
               .then(res=>{
                 alert("Delete OK!");
                 location.reload();
@@ -80,30 +92,35 @@ export class ListingComponent{
     const queryParams = new URLSearchParams(window.location.search.substring(1));
     const table = queryParams.get("TableNo");
     const tableBody = document.querySelector('#myTable tbody') as HTMLTableElement;
-    var billNumber = 0;
-    fetch('http://localhost:80/PHPapi/Bill/GetAllBill.php')
-    .then(res => res.json())
-    .then(data => {
-      billNumber = data.length;
-    })
     if (tableBody) {
       const rows = tableBody.rows;
       const formData: FormData = new FormData();
       for (let i = 0; i < rows.length; i++) {
         const row = rows[i];
-        formData.append('BillNumber', billNumber.toString());
-        formData.append('ProductName', row.cells[1].textContent!);
-        formData.append('Quantity', row.cells[2].textContent!);
-        formData.append('Price', row.cells[3].textContent!);
-        fetch('http://localhost:80/PHPapi/Bill/CreateBill.php', {
+        const name ={
+          name : row.cells[2].textContent
+        }
+        fetch('http://localhost:3000/product/name', {
+          headers : {'Content-Type':'application/json'},
           method: 'POST',
-          body: formData
+          body: JSON.stringify(name)
         })
         .then(res => res.json())
         .then(data => {
-          fetch('http://localhost:80/PHPapi/Cart/DeleteCart.php?TableNo='+table+'&ProductName='+row.cells[1].textContent!+'')
-          .then(res => res.json())
-          .then(data =>{
+          const bill = {
+            product_id: data._id,
+            quantity: row.cells[3].textContent,
+            price: row.cells[4].textContent,
+            cart_id: row.cells[0].textContent
+          };
+          console.log(JSON.stringify(bill))
+          fetch('http://localhost:3000/bill/add', {
+            headers : {'Content-Type':'application/json'},
+            method: 'POST',
+            body: JSON.stringify(bill)
+          })
+          fetch('http://localhost:3000/cart/delete/'+row.cells[0].textContent, {
+            method: 'DELETE'
           })
         })
       }
